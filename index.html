@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#e87d9b" />
+  <meta name="description" content="Una aplicación devocional diseñada para inspirar y guiar a mujeres en su camino de fe diario." />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="Entre Chicas Sabias" />
+  <meta property="og:title" content="Devocional Entre Chicas Sabias" />
+  <meta property="og:description" content="Una aplicación devocional diseñada para inspirar y guiar a mujeres en su camino de fe diario." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+  <title>Devocional Entre Chicas Sabias</title>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SPLASH / ONBOARDING
+══════════════════════════════════════════ -->
+<div id="splash">
+  <div class="splash-logo">Entre<br><small>Chicas Sabias</small></div>
+  <span class="splash-img">👩‍👩‍👧</span>
+  <p class="splash-tag">Comunidad</p>
+  <h2 class="splash-title">No caminas<br>sola</h2>
+  <p class="splash-sub">Comparte. Ora. Crece.</p>
+  <div class="splash-dots">
+    <div class="dot"></div>
+    <div class="dot active"></div>
+    <div class="dot"></div>
+  </div>
+  <button class="btn-siguiente" onclick="enterApp()">
+    Siguiente &nbsp;›
+  </button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- Top Logo Bar -->
+  <div class="top-bar">
+    <div class="top-logo">Entre<small>Chicas Sabias</small></div>
+    <button class="top-user" title="Perfil">👤</button>
+  </div>
+
+  <main>
+
+    <!-- ─── INICIO (DEVOTIONAL) ─── -->
+    <section class="section active" id="sec-inicio">
+
+      <p class="devo-date" id="devoDate">VIERNES, 27 DE MARZO</p>
+      <h2 class="devo-heading">✦ Devocional 🤍</h2>
+      <p class="devo-sub">Tu momento con Dios te espera</p>
+      <div class="pink-line"></div>
+
+      <!-- Preview card -->
+      <div class="devo-preview" id="devoPreview">
+        <div class="devo-card">
+          <span class="devo-ref-tag" id="previewRef">Lucas 10:41-42</span>
+          <h3 class="devo-title" id="previewTitle">Lo Urgente vs. Lo Importante</h3>
+          <div class="devo-verse-block">
+            <p id="previewVerse"></p>
+          </div>
+          <p class="devo-body preview" id="previewBody"></p>
+          <button class="btn-leer" onclick="openDevo()">
+            📖 &nbsp;Leamos juntas
+          </button>
+        </div>
+      </div>
+
+      <!-- Full devotional view -->
+      <div class="devo-full" id="devoFull">
+        <div class="devo-nav-row">
+          <button class="btn-back" onclick="closeDevo()">← Volver</button>
+          <div style="display:flex;gap:8px;">
+            <button class="arrow-btn" id="btnPrev" onclick="changeDevo(-1)" disabled>←</button>
+            <button class="arrow-btn" id="btnNext" onclick="changeDevo(1)">→</button>
+          </div>
+        </div>
+
+        <div class="devo-card">
+          <span class="devo-ref-tag" id="fullRef"></span>
+          <h3 class="devo-title" id="fullTitle"></h3>
+          <div class="devo-verse-block">
+            <p id="fullVerse"></p>
+          </div>
+          <p class="devo-body" id="fullBody"></p>
+
+          <div class="reflect-box">
+            <h4>🌸 Reflexión</h4>
+            <p id="fullReflection"></p>
+          </div>
+
+          <button class="prayer-toggle" id="prayerToggleBtn" onclick="togglePrayer()">
+            🙏 Oración del día
+          </button>
+          <div class="prayer-reveal" id="prayerReveal">
+            <p id="fullPrayer"></p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ─── DIARIO ─── -->
+    <section class="section" id="sec-diario">
+      <div class="section-hd">
+        <h2>Mi Diario</h2>
+        <p>Tu historia con Dios</p>
+      </div>
+
+      <button class="btn-new" onclick="showEditor()">+ Nueva entrada</button>
+
+      <div class="j-editor" id="jEditor">
+        <form id="jForm">
+          <input type="text" id="jTitle" placeholder="Título de tu entrada…" />
+          <div class="mood-row">
+            <span style="font-size:0.73rem;color:var(--text-light);align-self:center;">¿Cómo te sientes?</span>
+            <button type="button" class="mood-chip" data-mood="🌸 Agradecida" onclick="pickMood(this)">🌸 Agradecida</button>
+            <button type="button" class="mood-chip" data-mood="🌿 En paz" onclick="pickMood(this)">🌿 En paz</button>
+            <button type="button" class="mood-chip" data-mood="💪 Fuerte" onclick="pickMood(this)">💪 Fuerte</button>
+            <button type="button" class="mood-chip" data-mood="🌧️ Triste" onclick="pickMood(this)">🌧️ Triste</button>
+            <button type="button" class="mood-chip" data-mood="🙏 Buscando" onclick="pickMood(this)">🙏 Buscando</button>
+          </div>
+          <textarea id="jText" placeholder="Escribe lo que hay en tu corazón… ¿Qué te habló Dios hoy?" rows="5"></textarea>
+          <div class="editor-actions">
+            <button type="button" class="btn-cancel" onclick="hideEditor()">Cancelar</button>
+            <button type="submit" class="btn-save">Guardar ✨</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="jList"></div>
+    </section>
+
+    <!-- ─── BIBLIA ─── -->
+    <section class="section" id="sec-biblia">
+      <div class="section-hd">
+        <h2>Biblia</h2>
+        <p>Palabras de vida para tu corazón</p>
+      </div>
+
+      <div class="search-box">
+        <span class="si">🔍</span>
+        <input type="text" id="bSearch" placeholder="Buscar versículo o referencia…" oninput="renderBible()" />
+      </div>
+
+      <div class="cat-row" id="catRow"></div>
+      <div id="bibleGrid"></div>
+    </section>
+
+    <!-- ─── COMUNIDAD ─── -->
+    <section class="section" id="sec-comunidad">
+      <div class="comm-hero">
+        <span class="comm-img">👩‍👩‍👧</span>
+        <p class="comm-tag">Comunidad</p>
+        <h2 class="comm-title">No caminas sola</h2>
+        <p class="comm-sub">Comparte. Ora. Crece.</p>
+      </div>
+
+      <div class="feat-grid">
+        <div class="feat-card">
+          <span class="feat-icon">📖</span>
+          <div class="feat-text">
+            <h4>Devocionales diarios</h4>
+            <p>Un nuevo mensaje de Dios cada día, diseñado para ti.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">🙏</span>
+          <div class="feat-text">
+            <h4>Peticiones de oración</h4>
+            <p>Registra y lleva un seguimiento de tus oraciones.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">📝</span>
+          <div class="feat-text">
+            <h4>Diario espiritual</h4>
+            <p>Escribe tu caminar con Dios y guarda cada momento.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <span class="feat-icon">✨</span>
+          <div class="feat-text">
+            <h4>Versículos favoritos</h4>
+            <p>Guarda las Escrituras que tocan tu corazón.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── ORACIÓN (hidden, opened from prayer btn or can add to nav) ─── -->
+    <section class="section" id="sec-oracion">
+      <div class="section-hd">
+        <h2>Mis Oraciones</h2>
+        <p>Comparte tu corazón con Dios</p>
+      </div>
+
+      <form class="p-hero" id="pForm">
+        <h3>Nueva petición</h3>
+        <p>Él escucha cada oración. ✨</p>
+        <textarea id="pInput" placeholder="Escribe tu petición de oración aquí…" rows="3"></textarea>
+        <button type="submit" class="btn-add-p">+ Añadir petición</button>
+      </form>
+
+      <p class="p-list-title">Mis peticiones</p>
+      <div id="pList"></div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-sec="sec-inicio" onclick="goTo(this)">
+      <span class="ni">🏠</span>Inicio
+    </button>
+    <button class="nav-btn" data-sec="sec-diario" onclick="goTo(this)">
+      <span class="ni">📓</span>Diario
+    </button>
+    <button class="nav-btn" data-sec="sec-biblia" onclick="goTo(this)">
+      <span class="ni">📖</span>Biblia
+    </button>
+    <button class="nav-btn" data-sec="sec-oracion" onclick="goTo(this)">
+      <span class="ni">🙏</span>Oración
+    </button>
+    <button class="nav-btn" data-sec="sec-comunidad" onclick="goTo(this)">
+      <span class="ni">👥</span>Comunidad
+    </button>
+  </nav>
+
+</div><!-- /#app -->
+
+<div class="toast" id="toast"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
